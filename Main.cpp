@@ -38,9 +38,12 @@ int main()
 {
 	cout << "-- LIBRARY --" << endl << endl;
 	Library myLibrary;
-	myLibrary.AddBook("Notes Of A Crocodole", "Qie Miaojin", true);
-	myLibrary.AddBook("Geungsi", "Sean Lam", true);
-	myLibrary.AddBook("Soul Mountain", "Gao Xingjian", true);
+	myLibrary.AddBook("Notes Of A Crocodole", "Qie Miaojin", true, 0);
+	myLibrary.AddBook("Geungsi", "Sean Lam", true, 0);
+	myLibrary.AddBook("Soul Mountain", "Gao Xingjian", true, 0);
+
+	myLibrary.AddPerson("Kaiden Blackwood", 101, 0);
+	myLibrary.AddPerson("Lyora Whitestone", 102, 0);
 
 	while (true)
 	{
@@ -59,35 +62,112 @@ int main()
 		int menuChoice = MenuChoice(menuNumber);
 
 		switch (menuChoice) {
-		case SHOW_ALL_BOOKS:
+		case SHOW_ALL_BOOKS: {
 			cout << "- BOOKS' CATALOG -" << endl;
 			myLibrary.ShowAllBooks();
 			break;
-		case ADD_BOOK:
+		}
+		case ADD_BOOK: {
 			cout << "- BOOK ADDITION -" << endl;
-			cout << endl << endl;
+			const int N = 256;
+			char title[N];
+			char author[N];
+			bool st = true;
+			int bor = 0;
+			cout << "Enter title: ";
+			cin.getline(title, N);
+			cout << "Enter author: ";
+			cin.getline(author, N);
+			myLibrary.AddBook(title, author, st, bor);
 			break;
-		case ADD_PERSON:
+		}
+		case ADD_PERSON: {
 			cout << "- PERSON ADDITION -" << endl;
+			const int N = 256;
+			char name[N];
+			int id;
+			int is = 0;
+			cout << "Enter full name: ";
+			cin.getline(name, N);
+			cout << "Enter ID: ";
+			cin >> id;
+			cin.ignore(1000, '\n');
+			myLibrary.AddPerson(name, id, is);
 			break;
-		case ISSUE_BOOK:
+		}
+		case ISSUE_BOOK: {
 			cout << " - BOOK ISSUE -" << endl;
+			myLibrary.IssueBook();
 			break;
-		case RETURN_BOOK:
+		}
+		case RETURN_BOOK: {
 			cout << " - BOOK RETURN -" << endl;
+			myLibrary.ReturnBook();
 			break;
-		case FIND_BY_TITLE:
+		}
+		case FIND_BY_TITLE: {
 			cout << " - FIND BOOK BY TITLE -" << endl;
+			const int N = 256;
+			char title[N];
+			cout << "Enter a title or a part of it: ";
+			cin.getline(title, N);
+			Book* foundBook = myLibrary.FindBookByTitle(title);
+			if (foundBook != nullptr)
+			{
+				cout << "Book was found!" << endl;
+				cout << "Title: " << foundBook->GetBookTitle() << endl;
+				cout << "Author: " << foundBook->GetBookAuthor() << endl;
+				if (foundBook->GetBookStatus())
+				{
+					cout << "Status: " << foundBook->GetBookStatus() << " (in stock)" << endl << endl;
+				}
+				else
+				{
+					cout << "Status: " << foundBook->GetBookStatus() << " (issued)" << endl << endl;
+				}
+			}
+			else
+			{
+				cout << "Book was not found :(" << endl << endl;
+			}
 			break;
-		case FIND_BY_AUTHOR:
+		}
+		case FIND_BY_AUTHOR: {
 			cout << " - FIND BOOK BY AUTHOR -" << endl;
+			const int N = 256;
+			char author[N];
+			cout << "Enter an author or a part of it: ";
+			cin.getline(author, N);
+			Book* foundBook = myLibrary.FindBookByAuthor(author);
+			if (foundBook != nullptr)
+			{
+				cout << "Book was found!" << endl;
+				cout << "Title: " << foundBook->GetBookTitle() << endl;
+				cout << "Author: " << foundBook->GetBookAuthor() << endl;
+				if (foundBook->GetBookStatus())
+				{
+					cout << "Status: " << foundBook->GetBookStatus() << " (in stock)" << endl << endl;
+				}
+				else
+				{
+					cout << "Status: " << foundBook->GetBookStatus() << " (issued)" << endl << endl;
+				}
+			}
+			else
+			{
+				cout << "Book was not found :(" << endl << endl;
+			}
 			break;
-		case FIND_MOST_FREQUENT:
+		}
+		case FIND_MOST_FREQUENT: {
 			cout << " - MOST FREQUENT READER -" << endl;
+			myLibrary.MostFrPerson();
 			break;
-		case EXIT:
+		}
+		case EXIT: {
 			cout << "Exiting program. Goodbye!" << endl;
 			return 0;
+		}
 		}
 	}
 }

@@ -2,8 +2,8 @@
 #include <iostream>
 using namespace std;
 
-Book::Book() :bookTitle(nullptr), bookAuthor(nullptr), status(true) {}
-Book::Book(const char* name, const char* author, bool st)
+Book::Book() :bookTitle(nullptr), bookAuthor(nullptr), status(true), borrowedID(0) {}
+Book::Book(const char* name, const char* author, bool st, int bor)
 {
 	bookTitle = new char[strlen(name) + 1];
 	strcpy_s(bookTitle, strlen(name) + 1, name);
@@ -12,6 +12,7 @@ Book::Book(const char* name, const char* author, bool st)
 	strcpy_s(bookAuthor, strlen(author) + 1, author);
 
 	status = st;
+	borrowedID = bor;
 }
 Book::~Book()
 {
@@ -31,3 +32,18 @@ bool Book::GetBookStatus()
 {
 	return status;
 }
+int Book::GetBorrowedID()
+{
+	return borrowedID;
+}
+
+void Book::SetBookStatus(bool st)
+{
+	status = st;
+}
+void Book::SetBorrowedID(int bor)
+{
+	borrowedID = bor;
+}
+
+
